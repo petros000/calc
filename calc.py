@@ -153,19 +153,23 @@ class Ui_MainWindow(object):
         self.btn_divis.setFont(font)
         self.btn_divis.setStyleSheet("background-color: rgb(126, 126, 126);")
         self.btn_divis.setObjectName("btn_divis")
-        self.btn_sum_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_sum_2.setGeometry(QtCore.QRect(300, 140, 80, 90))
+        self.btn_minus = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_minus.setGeometry(QtCore.QRect(300, 140, 80, 90))
         font = QtGui.QFont()
         font.setPointSize(17)
         font.setBold(True)
         font.setWeight(75)
-        self.btn_sum_2.setFont(font)
-        self.btn_sum_2.setStyleSheet("background-color: rgb(126, 126, 126);")
-        self.btn_sum_2.setObjectName("btn_sum_2")
+        self.btn_minus.setFont(font)
+        self.btn_minus.setStyleSheet("background-color: rgb(126, 126, 126);")
+        self.btn_minus.setObjectName("btn_minus")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.add_function()
+
+        self.is_equal = False
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -185,8 +189,39 @@ class Ui_MainWindow(object):
         self.btn_sum.setText(_translate("MainWindow", "+"))
         self.btn_multy.setText(_translate("MainWindow", "*"))
         self.btn_divis.setText(_translate("MainWindow", "/"))
-        self.btn_sum_2.setText(_translate("MainWindow", "-"))
+        self.btn_minus.setText(_translate("MainWindow", "-"))
 
+    def add_function(self):
+        self.btn_0.clicked.connect(lambda: self.write_number(self.btn_0.text()))
+        self.btn_1.clicked.connect(lambda: self.write_number(self.btn_1.text()))
+        self.btn_2.clicked.connect(lambda: self.write_number(self.btn_2.text()))
+        self.btn_3.clicked.connect(lambda: self.write_number(self.btn_3.text()))
+        self.btn_4.clicked.connect(lambda: self.write_number(self.btn_4.text()))
+        self.btn_5.clicked.connect(lambda: self.write_number(self.btn_5.text()))
+        self.btn_6.clicked.connect(lambda: self.write_number(self.btn_6.text()))
+        self.btn_7.clicked.connect(lambda: self.write_number(self.btn_7.text()))
+        self.btn_8.clicked.connect(lambda: self.write_number(self.btn_8.text()))
+        self.btn_9.clicked.connect(lambda: self.write_number(self.btn_9.text()))
+
+        self.btn_sum.clicked.connect(lambda: self.write_number(self.btn_sum.text()))
+        self.btn_minus.clicked.connect(lambda: self.write_number(self.btn_minus.text()))
+        self.btn_multy.clicked.connect(lambda: self.write_number(self.btn_multy.text()))
+        self.btn_divis.clicked.connect(lambda: self.write_number(self.btn_divis.text()))
+
+        self.btn_equal.clicked.connect(self.results)
+
+
+    def write_number(self, number):
+        if self.label_result.text() == "0" or self.is_equal:
+            self.label_result.setText(number)
+            self.is_equal = False
+        else:
+            self.label_result.setText(self.label_result.text() + number)
+
+    def results(self):
+        res = eval(self.label_result.text())
+        self.label_result.setText("Результат: " + str(res))
+        self.is_equal = True
 
 if __name__ == "__main__":
     import sys
